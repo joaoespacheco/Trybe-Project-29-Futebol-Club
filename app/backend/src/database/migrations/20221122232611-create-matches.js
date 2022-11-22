@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         field: 'home_team',
         references: {
-          model: 'users',
+          model: 'teams',
           key: 'id',
         },
         onUpdate: 'CASCADE',
@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         field: 'away_team',
         references: {
-          model: 'users',
+          model: 'teams',
           key: 'id',
         },
         onUpdate: 'CASCADE',
