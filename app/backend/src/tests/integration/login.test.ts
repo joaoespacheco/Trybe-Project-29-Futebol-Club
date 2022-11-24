@@ -14,12 +14,8 @@
 
 // const { expect } = chai;
 
-// describe('Seu teste', () => {
-//   /**
-//    * Exemplo do uso de stubs com tipos
-//    */
-
-//   // let chaiHttpResponse: Response;
+// describe('Testes relacionados a rota /login', () => {
+//   let chaiHttpResponse: Response;
 
 //   // before(async () => {
 //   //   sinon
@@ -41,7 +37,7 @@
 //   //   expect(...)
 //   // });
 
-//   it('Seu sub-teste', () => {
+//   it('Testando retorno da rota POST:/login, caso usuário seja existente', () => {
 //     expect(false).to.be.eq(true);
 //   });
 // });
