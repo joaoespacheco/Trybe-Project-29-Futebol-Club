@@ -3,14 +3,18 @@ import IUserService from '../interfaces/IUserService';
 import HttpException from '../Utils/HttpException';
 import ILogin from '../interfaces/ILogin';
 import User from '../database/models/User';
+import Validations from './validations/validations';
+import { loginSchema } from './validations/schemas';
 
 class UserService implements IUserService {
   constructor(
     private _userModel = User,
     private _authTools = new AuthTools(),
+    private _validations = new Validations(),
   ) {}
 
   public login = async (login: ILogin): Promise<string> => {
+    this._validations.login(loginSchema, login);
     const user = await this._userModel.findOne({ where: { email: login.email } });
     if (!user) {
       throw new HttpException(400, 'All fields must be filled');
