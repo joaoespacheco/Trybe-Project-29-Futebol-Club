@@ -8,7 +8,13 @@ import App from '../app';
 import User from '../database/models/User';
 
 // import { Response } from 'superagent';
-import { tokenMock, userMock, validLoginMock } from './mocks/userMocks';
+import { 
+  tokenMock,
+  userMock,
+  validLoginMock,
+  invalidEmailMock,
+  invalidPasswordMock,
+} from './mocks/userMocks';
 
 chai.use(chaiHttp);
 
@@ -19,7 +25,7 @@ describe('Verifica a rota /login', () => {
   describe('Testes relacionados as requisições do tipo POST', () => {
     afterEach(() => sinon.restore());
 
-    it('Testando caso email seja existente', async () => {
+    it('Testando caso email e password sejam válidos', async () => {
       sinon.stub(User, 'findOne').resolves(userMock as User)
       sinon.stub(jwt, 'sign').resolves(tokenMock);
 
@@ -28,18 +34,47 @@ describe('Verifica a rota /login', () => {
       .post('/login').send(validLoginMock)
 
       expect(response.status).to.be.eq(200);
-      expect(response.body).to.be.eq({token: tokenMock});
+      expect(response.body).to.deep.eq({token: tokenMock});
     });
 
-    it('Testando caso email seja inexistente', async () => {
+    it('Testando caso email seja incorreto', async () => {
+      sinon.stub(User, 'findOne').resolves(null)
+      
+      const response = await chai
+      .request(app)
+      .post('/login').send(invalidEmailMock)
+
+      expect(response.status).to.be.eq(401);
+      expect(response.body).to.deep.eq({message: 'Incorrect email or password'});
+    });
+
+    it('Testando caso password seja incorreto', async () => {
       sinon.stub(User, 'findOne').resolves(userMock as User)
 
       const response = await chai
       .request(app)
-      .post('/login').send({password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'})
+      .post('/login').send(invalidPasswordMock)
+
+      expect(response.status).to.be.eq(401);
+      expect(response.body).to.deep.eq({message: 'Incorrect email or password'});
+    });
+
+    it('Testando caso não exista o campo email na requisição', async () => {
+      const response = await chai
+      .request(app)
+      .post('/login').send({password: 'myPassword'})
 
       expect(response.status).to.be.eq(400);
-      expect(response.body).to.be.eq({message: 'All fields must be filled'});
+      expect(response.body).to.deep.eq({message: 'All fields must be filled'});
+    });
+
+    it('Testando caso não exista o campo password na requisição', async () => {
+      const response = await chai
+      .request(app)
+      .post('/login').send( {email: 'teste@teste.com'} )
+
+      expect(response.status).to.be.eq(400);
+      expect(response.body).to.deep.eq({message: 'All fields must be filled'});
     });
   });
 

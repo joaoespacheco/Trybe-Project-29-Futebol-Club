@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
 import HttpException from '../../Utils/HttpException';
-import { mapStatusCode, statusCode } from './httpCodeErros';
+import { mapStatusCode, statusCode } from '.';
 
 const validate = (schema: Joi.Schema, body: unknown) => {
   const { error } = schema.validate(body);
