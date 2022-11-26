@@ -11,8 +11,9 @@ class UserController implements IUserController {
     res.status(200).json({ token });
   };
 
-  public getRole = async (req: Request, res: Response) => {
+  public getRole = (req: Request, res: Response) => {
     const { user } = req.body;
+    console.log(user.role);
     res.status(200).json({ role: user.role });
   };
 }

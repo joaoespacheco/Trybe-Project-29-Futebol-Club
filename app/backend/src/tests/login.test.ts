@@ -14,6 +14,7 @@ import {
   validLoginMock,
   invalidEmailMock,
   invalidPasswordMock,
+  payloadMock,
 } from './mocks/userMocks';
 
 chai.use(chaiHttp);
@@ -22,7 +23,7 @@ const { app } = new App();
 const { expect } = chai;
 
 describe('Verifica a rota /login', () => {
-  describe('Testes relacionados as requisições do tipo POST', () => {
+  describe('Testes relacionados as requisições do tipo POST: /login', () => {
     afterEach(() => sinon.restore());
 
     it('Testando caso email e password sejam válidos', async () => {
@@ -77,5 +78,40 @@ describe('Verifica a rota /login', () => {
       expect(response.body).to.deep.eq({message: 'All fields must be filled'});
     });
   });
+
+  describe('Testes relacionado as requisições do tipo GET: /login/validate', () => {
+    afterEach(() => sinon.restore());
+
+    it('Testando caso token seja válido', async () => {
+      sinon.stub(jwt, 'verify').resolves({...payloadMock});
+
+      const response = await chai
+      .request(app)
+      .get('/login/validate')
+      .set('authorization', tokenMock)
+
+      expect(response.status).to.be.eq(200);
+      expect(response.body).to.deep.eq({role: 'admin'});
+    });
+
+    it('Testando caso token seja inválido', async () => {
+      const response = await chai
+      .request(app)
+      .get('/login/validate')
+      .set('authorization', tokenMock)
+
+      expect(response.status).to.be.eq(401);
+      expect(response.body).to.deep.eq({message: 'Invalid token'});
+    });
+
+    it('Testando caso token seja inexistente', async () => {
+      const response = await chai
+      .request(app)
+      .get('/login/validate')
+
+      expect(response.status).to.be.eq(401);
+      expect(response.body).to.deep.eq({message: 'Token not found'});
+    });
+  })
 
 });
