@@ -8,7 +8,7 @@ class MatchController {
     const { inProgress } = req.query;
 
     let matches = [];
-    if (inProgress) {
+    if (inProgress === 'true' || inProgress === 'false') {
       matches = await this._matchService.getByProgress(inProgress === 'true');
     } else {
       matches = await this._matchService.getAll();
