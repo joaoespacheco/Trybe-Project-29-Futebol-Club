@@ -2,8 +2,8 @@ import HttpException from '../Utils/HttpException';
 import Match from '../database/models/Match';
 import Team from '../database/models/Team';
 import validate from './validations/validate';
-import { newMatchSchema } from './validations/schemas';
-import { IMatch } from '../interfaces/IMatch';
+import { newMatchSchema, matchScoreSchema } from './validations/schemas';
+import { IMatch, IScore } from '../interfaces/IMatch';
 
 class MatchService {
   constructor(
@@ -75,6 +75,15 @@ class MatchService {
       throw new HttpException(404, 'There is no match with such id!');
     }
     await this._matchModel.update({ inProgress: false }, { where: { id } });
+  };
+
+  public updateMatch = async (id: number, data: IScore): Promise<void> => {
+    validate(matchScoreSchema, data);
+    const match = await this._matchModel.findByPk(id);
+    if (!match) {
+      throw new HttpException(404, 'There is no match with such id!');
+    }
+    await this._matchModel.update({ ...data }, { where: { id } });
   };
 }
 

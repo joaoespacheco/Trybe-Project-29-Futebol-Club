@@ -1,11 +1,15 @@
-interface IMatch {
-  homeTeam: number,
-  awayTeam: number,
+interface IScore {
   homeTeamGoals: number,
   awayTeamGoals: number,
 }
 
-export default IMatch;
+interface IMatch extends IScore{
+  homeTeam: number,
+  awayTeam: number,
+
+}
+
 export {
   IMatch,
+  IScore,
 };
