@@ -12,7 +12,7 @@ async function authMiddleware(req: Request, _res: Response, next: NextFunction) 
     req.body.user = payload;
     next();
   } catch (err) {
-    throw new HttpException(401, 'Invalid token');
+    throw new HttpException(401, 'Token must be a valid token');
   }
 }
 

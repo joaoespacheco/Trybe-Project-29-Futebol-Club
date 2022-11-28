@@ -12,22 +12,29 @@ class Match extends Model {
 
 Match.init({
   id: {
+    allowNull: false,
+    autoIncrement: true,
     primaryKey: true,
     type: INTEGER,
   },
   homeTeam: {
+    allowNull: false,
     type: INTEGER,
   },
   homeTeamGoals: {
+    allowNull: false,
     type: INTEGER,
   },
   awayTeam: {
+    allowNull: false,
     type: INTEGER,
   },
   awayTeamGoals: {
+    allowNull: false,
     type: INTEGER,
   },
   inProgress: {
+    allowNull: false,
     type: BOOLEAN,
   },
 }, {

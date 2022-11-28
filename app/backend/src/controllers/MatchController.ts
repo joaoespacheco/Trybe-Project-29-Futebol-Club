@@ -16,6 +16,13 @@ class MatchController {
 
     res.status(200).json(matches);
   };
+
+  public postNewMatch = async (req: Request, res: Response) => {
+    const { user, ...body } = req.body;
+    const newMatch = await this._matchService.postNewMatch(body);
+
+    res.status(201).json(newMatch);
+  };
 }
 
 export default MatchController;

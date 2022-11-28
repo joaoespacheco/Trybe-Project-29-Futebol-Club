@@ -1,5 +1,7 @@
 import Match from '../database/models/Match';
 import Team from '../database/models/Team';
+import validate from './validations/validate';
+import { newMatchSchema } from './validations/schemas';
 
 class MatchService {
   constructor(
@@ -41,6 +43,12 @@ class MatchService {
       where: { inProgress },
     });
     return matches;
+  };
+
+  public postNewMatch = async (data: Match): Promise<Match> => {
+    validate(newMatchSchema, data);
+    const newMatch = await this._matchModel.create({ ...data, inProgress: true });
+    return newMatch;
   };
 }
 

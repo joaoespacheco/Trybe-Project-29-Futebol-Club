@@ -15,7 +15,26 @@ const loginSchema: Joi.Schema = Joi.object({
   }),
 });
 
-export default loginSchema;
+const newMatchSchema: Joi.Schema = Joi.object({
+  homeTeam: Joi.number().min(1).required().messages({
+    'number.empty': FIELD_REQUIRED,
+    'any.required': FIELD_REQUIRED,
+  }),
+  awayTeam: Joi.number().min(1).required().messages({
+    'number.empty': FIELD_REQUIRED,
+    'any.required': FIELD_REQUIRED,
+  }),
+  homeTeamGoals: Joi.number().min(0).required().messages({
+    'number.empty': FIELD_REQUIRED,
+    'any.required': FIELD_REQUIRED,
+  }),
+  awayTeamGoals: Joi.number().min(0).required().messages({
+    'number.empty': FIELD_REQUIRED,
+    'any.required': FIELD_REQUIRED,
+  }),
+});
+
 export {
   loginSchema,
+  newMatchSchema,
 };

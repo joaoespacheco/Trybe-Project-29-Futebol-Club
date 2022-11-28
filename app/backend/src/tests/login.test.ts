@@ -101,7 +101,7 @@ describe('Verifica a rota /login', () => {
       .set('authorization', tokenMock)
 
       expect(response.status).to.be.eq(401);
-      expect(response.body).to.deep.eq({message: 'Invalid token'});
+      expect(response.body).to.deep.eq({message: 'Token must be a valid token'});
     });
 
     it('Testando caso token seja inexistente', async () => {

@@ -4,7 +4,8 @@ import IUserService from '../interfaces/IUserService';
 import HttpException from '../Utils/HttpException';
 import ILogin from '../interfaces/ILogin';
 import User from '../database/models/User';
-import { validate, loginSchema } from './validations';
+import validate from './validations/validate';
+import { loginSchema } from './validations/schemas';
 
 class UserService implements IUserService {
   constructor(
