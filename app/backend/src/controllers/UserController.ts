@@ -13,7 +13,6 @@ class UserController implements IUserController {
 
   public getRole = (req: Request, res: Response) => {
     const { user } = req.body;
-    console.log(user.role);
     res.status(200).json({ role: user.role });
   };
 }

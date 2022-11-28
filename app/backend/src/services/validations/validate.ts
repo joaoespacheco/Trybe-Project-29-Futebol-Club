@@ -6,7 +6,6 @@ const validate = (schema: Joi.Schema, body: unknown) => {
   const { error } = schema.validate(body);
   if (error) {
     const { message, details } = error;
-    console.log(details);
     const httpError = mapStatusCode(details[0].type as keyof typeof statusCode);
     throw new HttpException(httpError, message);
   }
