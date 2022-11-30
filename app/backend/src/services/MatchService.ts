@@ -1,9 +1,8 @@
 import HttpException from '../Utils/HttpException';
-import Match from '../database/models/Match';
+import Match, { IMatch, IScore } from '../database/models/Match';
 import Team from '../database/models/Team';
 import validate from './validations/validate';
 import { newMatchSchema, matchScoreSchema } from './validations/schemas';
-import { IMatch, IScore } from '../interfaces/IMatch';
 
 class MatchService {
   constructor(

@@ -3,11 +3,11 @@ import IUser from '../../interfaces/IUser';
 import db from '.';
 
 class User extends Model implements IUser {
-  id!: number;
-  userName!: string;
-  role!: string;
-  email!: string;
-  password!: string;
+  declare id: number;
+  declare userName: string;
+  declare role: string;
+  declare email: string;
+  declare password: string;
 }
 
 User.init({

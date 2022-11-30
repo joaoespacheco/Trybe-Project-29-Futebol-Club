@@ -2,12 +2,34 @@ import { Model, INTEGER, BOOLEAN } from 'sequelize';
 import db from '.';
 import Team from './Team';
 
-class Match extends Model {
-  id!: number;
-  userName!: string;
-  role!: string;
-  email!: string;
-  password!: string;
+interface IScore {
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}
+
+interface IMatch extends IScore {
+  id: number,
+  homeTeam: number,
+  awayTeam: number,
+  inProgress?: boolean;
+}
+
+interface IMatchResponse extends IMatch {
+  teamHome: {
+    teamName: string,
+  },
+  teamAway: {
+    teamName: string,
+  }
+}
+
+class Match extends Model<IMatch> {
+  declare id: number;
+  declare homeTeam: number;
+  declare homeTeamGoals: number;
+  declare awayTeam: number;
+  declare awayTeamGoals: number;
+  declare inProgress: boolean;
 }
 
 Match.init({
@@ -51,3 +73,8 @@ Match.belongsTo(Team, { foreignKey: 'homeTeam', as: 'teamHome' });
 Match.belongsTo(Team, { foreignKey: 'awayTeam', as: 'teamAway' });
 
 export default Match;
+export {
+  IScore,
+  IMatch,
+  IMatchResponse,
+};
