@@ -28,12 +28,10 @@ describe('Verifica a rota /teams', () => {
 
     it('Testando resposta caso requisição seja concluída', async () => {
       sinon.stub(Team, 'findAll').resolves(allTeamsMock as Team[])
-      sinon.stub(jwt, 'verify').resolves(payloadMock);
 
       const response = await chai
       .request(app)
       .get('/teams')
-      .set('authorization', tokenMock)
 
       expect(response.status).to.be.eq(200);
       expect(response.body).to.deep.eq(allTeamsMock);
@@ -46,15 +44,24 @@ describe('Verifica a rota /teams', () => {
 
     it('Testando resposta caso id e teamName estejam corretos', async () => {
       sinon.stub(Team, 'findByPk').resolves(oneTeamMock as Team)
-      sinon.stub(jwt, 'verify').resolves(payloadMock);
 
       const response = await chai
       .request(app)
       .get('/teams/5')
-      .set('authorization', tokenMock)
 
       expect(response.status).to.be.eq(200);
       expect(response.body).to.deep.eq(oneTeamMock);
+    });
+
+    it('Testando resposta caso id seja inexistente', async () => {
+      sinon.stub(Team, 'findByPk').resolves(null)
+
+      const response = await chai
+      .request(app)
+      .get('/teams/500')
+
+      expect(response.status).to.be.eq(401);
+      expect(response.body).to.deep.eq({ message: 'Team not found' });
     });
 
   });
